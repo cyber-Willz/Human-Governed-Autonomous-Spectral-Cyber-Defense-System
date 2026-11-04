@@ -1,4 +1,4 @@
-# Unified NDR / IPS / SIEM — implementation of `unified_ndr_ips_siem_guide.md`
+# Human-Governed-Autonomous-Spectral-Cyber-Defense-System
 
 This workspace is a straight implementation of the guide's build order
 (§3-§6), assembled from the uploaded components plus five new crates, one
