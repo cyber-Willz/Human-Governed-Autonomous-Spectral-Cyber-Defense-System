@@ -1,0 +1,25 @@
+[package]
+name = "unified_runner"
+version = "0.1.0"
+edition = "2021"
+description = "End-to-end live-run driver: wires ingestion -> hg_builder -> correlation_engine -> ips_control_plane -> rustwall::Quarantine and replays a synthetic DDoS fan-in, port-scan fan-out, and honeytoken touch to show verdicts flowing through review/auto-resolve into real containment bans."
+
+[dependencies]
+ingestion = { path = "../ingestion" }
+hg_builder = { path = "../hg_builder" }
+correlation_engine = { path = "../correlation_engine" }
+ips_control_plane = { path = "../ips_control_plane" }
+review_queue = { path = "../review_queue" }
+rustwall = { path = "../rustwall" }
+nsm = { path = "../nsm" }
+neuro_lane = { path = "../neuro_lane" }
+llm_bridge = { path = "../llm_bridge" }
+rl_decision = { path = "../rl_decision" }
+tokio = { version = "1.38", features = ["rt-multi-thread", "sync", "time", "macros", "process", "io-util"] }
+tokio-util = "0.7"
+async-trait = "0.1"
+bytes = "1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

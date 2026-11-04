@@ -1,0 +1,46 @@
+[Unit]
+Description=rclamd - Rust malware scanning daemon
+Documentation=https://github.com/your-org/rust-clam
+After=network.target
+
+[Service]
+Type=simple
+# systemd's Type=simple does not need a PID file; the process itself is
+# supervised directly, and `panic = "unwind"` in the workspace profile
+# means a single bad scan request can't bring the whole daemon down for
+# systemd to have to notice and restart in the first place.
+ExecStart=/usr/local/bin/rclamd \
+    --ndb /etc/rclam/signatures/sample.ndb \
+    --hdb /etc/rclam/signatures/sample.hdb \
+    --socket /run/rclamd/rclamd.sock \
+    --socket-mode 0660 \
+    --max-connections 128 \
+    --allow-root /srv/uploads
+
+Restart=on-failure
+RestartSec=2s
+
+# --- Process hardening ---------------------------------------------
+User=rclam
+Group=rclam
+RuntimeDirectory=rclamd
+RuntimeDirectoryMode=0750
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+# The daemon needs read access to whatever paths clients ask it to SCAN;
+# grant that explicitly per deployment rather than leaving the filesystem
+# fully open. Example: allow read-only access to a shared uploads dir.
+ReadOnlyPaths=/srv/uploads
+
+[Install]
+WantedBy=multi-user.target

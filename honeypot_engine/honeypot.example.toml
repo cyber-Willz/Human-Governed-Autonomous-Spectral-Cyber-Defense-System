@@ -1,0 +1,64 @@
+host_id = "honeypot-01"
+
+[ssh]
+enabled = true
+bind_addr = "0.0.0.0:2222"
+host_key_path = "/var/lib/honeypot_engine/ssh_host_key"
+banner = "SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu1"
+fake_hostname = "prod-db-03"
+max_session_seconds = 600
+# Uncomment to let attackers "succeed" after N password attempts so you can
+# observe post-auth behavior in the fake shell. Leave commented for
+# pure credential-harvesting mode (always reject).
+# allow_login_after_attempts = 3
+
+[[tcp_ports]]
+port = 21
+label = "ftp"
+banner = "220 ProFTPD 1.3.8 Server ready.\r\n"
+
+[[tcp_ports]]
+port = 23
+label = "telnet"
+banner = "\r\nlogin: "
+
+[[tcp_ports]]
+port = 3389
+label = "rdp"
+
+[[tcp_ports]]
+port = 6379
+label = "redis"
+banner = "-ERR unknown command\r\n"
+
+[honeytokens]
+watch_paths = []
+
+[[honeytokens.decoy_files]]
+path = "/opt/active_spectral_defense/config/db_backup_credentials.yml"
+token_id = "decoy-db-creds-01"
+content = """
+# backup service account -- rotate quarterly
+host: internal-pg-01.local
+user: backup_svc
+password: Tr0ub4dor&3-backup
+"""
+
+[[honeytokens.decoy_files]]
+path = "/opt/active_spectral_defense/config/.aws_credentials_backup"
+token_id = "decoy-aws-creds-01"
+content = """
+[default]
+aws_access_key_id = AKIAFAKEHONEYPOTKEY1
+aws_secret_access_key = fAkeSecretKeyForHoneypotDoNotUse1234567890
+"""
+
+[sinks]
+jsonl_dir = "/var/log/honeypot_engine"
+channel_capacity = 4096
+# unix_socket_path = "/run/active_spectral_defense/siem_ingest.sock"
+
+[sinks.postgres]
+connection_string = "postgres://honeypot:changeme@localhost:5432/active_spectral_defense"
+batch_size = 50
+flush_interval_ms = 2000

@@ -1,0 +1,10 @@
+[package]
+name = "bounded_channel"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Bounded, multi-producer/single-consumer channel with a hard capacity ceiling. Same design as rustwall::chan (its sync_worker consumer) -- promoted to a standalone crate so hg_builder's window-close hand-off and any future consumer can share one audited implementation instead of a third copy-paste."
+
+[dependencies]
+
+[dev-dependencies]

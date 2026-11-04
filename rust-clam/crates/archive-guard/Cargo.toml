@@ -1,0 +1,10 @@
+[package]
+name = "archive-guard"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+zip = { version = "0.6", default-features = false, features = ["deflate"] }
+flate2 = "1.1"
+tar = "0.4"
+thiserror = "1.0"

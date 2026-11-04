@@ -1,0 +1,11 @@
+[package]
+name = "llm_bridge"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.92"
+description = "Bi-directional, closed-vocabulary language channel between the NSM/NDR/SIEM stack and the connectome-LSTM lane, with burn-llm as the (optional, untrusted-output) translator."
+
+[dependencies]
+parking_lot = "0.12"
+thiserror = "1"
+tracing = "0.1"

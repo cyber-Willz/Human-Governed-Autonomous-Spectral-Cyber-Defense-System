@@ -1,0 +1,12 @@
+[package]
+name = "llm_sidecar"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.92"
+description = "burn-llm inference process speaking the llm_bridge stdio protocol."
+
+[dependencies]
+burn-llm = { path = "../burn-llm" }
+burn-ndarray = "0.21"
+rand = "0.10"
+anyhow = "1"

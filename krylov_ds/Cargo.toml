@@ -1,0 +1,19 @@
+[package]
+name = "krylov_ds"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Production-ready Arnoldi and Lanczos Krylov subspace methods"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+num-traits = "0.2"
+thiserror = "1"
+nalgebra = "0.32"
+
+[dev-dependencies]
+approx = "0.5"
+
+[profile.release]
+lto = true
+opt-level = 3

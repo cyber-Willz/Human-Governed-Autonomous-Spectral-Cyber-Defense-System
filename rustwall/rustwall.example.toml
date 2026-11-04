@@ -1,0 +1,158 @@
+# rustwall example policy
+# Rules are evaluated top-to-bottom, first match wins, like nftables chains
+# or PAN-OS security policy order. Anything falling through hits
+# `default_policy`.
+
+queue_num = 0
+# Spawns this many NFQUEUE worker threads bound to queue_num..queue_num+N-1.
+# Requires a matching `queue num START-END fanout` rule -- see README.
+queue_workers = 2
+default_policy = "drop"
+
+# Caps structured "policy decision" log lines to this many per second,
+# process-wide, so a flood of drops can't become a self-inflicted logging
+# DoS. Excess events are counted and flushed as a periodic summary instead.
+log_max_per_sec = 200
+
+# Uncomment to expose a Prometheus-format /metrics endpoint (packets
+# accepted/dropped/rejected, active flows, quarantine state, etc.) plus a
+# POST /quarantine/unban/<ip> admin route. Bind to loopback or a
+# management-only interface.
+# metrics_listen = "127.0.0.1:9090"
+#
+# Strongly recommended once metrics_listen binds beyond a fully trusted
+# loopback -- and worth setting even on loopback, since without it any
+# local process/user can issue unban requests. Requires
+# "Authorization: Bearer <token>" on every request to either route.
+# metrics_auth_token = "change-me-to-something-random"
+
+# Caps how many distinct IPs the dynamic quarantine list (auto_block_secs,
+# see below) will track at once, so a source that can trigger auto-block on
+# demand can't grow this table without bound. Mirrors conntrack.max_entries.
+quarantine_max_entries = 100000
+
+# When true, every quarantine ban is ALSO pushed into the host's own
+# firewall (an nftables table/set on Linux, with native TTL expiry) in
+# addition to rustwall's own in-process enforcement -- defense in depth if
+# this process crashes, and the kernel drops repeat traffic before it ever
+# reaches userspace/NFQUEUE. Off by default: this modifies system-wide
+# firewall state outside rustwall's own process. Requires `nft` installed
+# and CAP_NET_ADMIN; if initialization fails, rustwall logs a warning and
+# falls back to its own in-process quarantine only -- it does not refuse to
+# start. See README for the Windows Firewall (netsh) backend, which exists
+# in the codebase but is not part of today's buildable Windows target.
+sync_to_os_firewall = false
+
+# Management-plane / trusted hosts bypass rule evaluation entirely (comparable
+# to PAN-OS management interface ACLs). Keep this list short and audited.
+trusted = ["10.0.0.1"]
+
+# Named, reusable CIDR sets (pfSense/OPNsense "Alias" pattern) -- reference
+# these from rules via "alias:<name>" instead of repeating literal CIDRs.
+# Updating an alias updates every rule that references it.
+[[aliases]]
+name = "office"
+cidrs = ["10.0.0.0/24"]
+
+[[aliases]]
+name = "known_scanners"
+cidrs = ["198.51.100.0/24", "203.0.113.4/32"]
+
+[conntrack]
+tcp_established_timeout_secs = 3600
+tcp_transitory_timeout_secs = 60
+udp_timeout_secs = 30
+max_entries = 250000
+
+# Alias-referenced rule: any host in the "office" alias can reach SSH.
+[[rules]]
+name = "allow-office-ssh"
+protocol = "tcp"
+direction = "inbound"
+src = "alias:office"
+dst = "0.0.0.0/0"
+dst_port = "22"
+action = "accept"
+log = true
+
+# Known scanner ranges get auto-quarantined for an hour after 3 matches
+# within 2 minutes -- the Untangle-style behavioral auto-block pattern,
+# with auto_block_threshold raising the bar above a single packet.
+#
+# CAVEAT -- read before using auto_block_secs anywhere in your ruleset:
+# quarantine bans by source IP taken from the packet header, which is NOT
+# authenticated. TCP SYNs and UDP packets can carry a forged source address,
+# and the sender doesn't need to complete a handshake or receive a reply for
+# this firewall to see "traffic from X hit a reject rule" and quarantine X.
+# Anyone who knows a rule like this exists can spoof packets claiming to be
+# from an IP they want knocked offline -- a customer, a partner, your own
+# monitoring host -- and this firewall will blacklist it for them, on
+# command, for the ban duration. This is the same weakness fail2ban-style
+# systems have always had; it is not unique to this implementation, but it
+# is a real one. auto_block_threshold = 3 below means one spoofed packet is
+# no longer enough on its own -- it closes the trivial single-packet case,
+# it does NOT eliminate spoofing: an attacker willing to send 3 spoofed
+# packets instead of 1 is unaffected. Prefer auto_block_secs on rules that
+# only match AFTER a real TCP handshake (established, not bare SYN
+# inspection) where spoofing is impractical, or accept the residual risk
+# knowingly for pre-handshake rules like the one below.
+[[rules]]
+name = "reject-known-scanners"
+protocol = "any"
+src = "alias:known_scanners"
+action = "reject"
+auto_block_secs = 3600
+auto_block_threshold = 3
+auto_block_window_secs = 120
+log = true
+
+[[rules]]
+name = "allow-web-inbound"
+protocol = "tcp"
+direction = "inbound"
+src = "0.0.0.0/0"
+dst = "0.0.0.0/0"
+dst_port = "443"
+action = "accept"
+rate_limit_pps = 200
+log = false
+
+[[rules]]
+name = "allow-web-http-redirect"
+protocol = "tcp"
+dst_port = "80"
+action = "accept"
+rate_limit_pps = 200
+
+[[rules]]
+name = "allow-dns-outbound"
+protocol = "udp"
+direction = "outbound"
+dst_port = "53"
+action = "accept"
+
+# "reject" actively sends a TCP RST (or ICMP port-unreachable for non-TCP)
+# instead of silently dropping -- the client fails fast instead of hanging
+# on a connect() timeout. Use "drop" instead if you'd rather the port look
+# stealthed/filtered to a scanner. auto_block_secs here means a single
+# telnet probe gets the source cut off entirely for 10 minutes, not just
+# that one connection refused -- typical telnet probes are reconnaissance,
+# not accidental traffic. This one deliberately leaves auto_block_threshold
+# at its default of 1 (ban on first match) rather than the 3 used above --
+# a lone telnet probe is unusual enough on its own to treat as signal, but
+# see the spoofing caveat above the reject-known-scanners rule before
+# relying on that judgment call broadly; it applies here too, since this
+# also matches on the initial SYN.
+[[rules]]
+name = "reject-telnet"
+protocol = "tcp"
+dst_port = "23"
+action = "reject"
+auto_block_secs = 600
+log = true
+
+[[rules]]
+name = "allow-icmp-echo"
+protocol = "icmp"
+action = "accept"
+rate_limit_pps = 20

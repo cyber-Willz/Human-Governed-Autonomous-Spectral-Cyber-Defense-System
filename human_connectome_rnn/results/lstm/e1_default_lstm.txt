@@ -1,0 +1,4 @@
+### e1_default_lstm: --model lstm --seeds 8 --modes connectome,degree-preserving,density-matched
+connectome            22.52    1.050   0.377    6.6 +- 3.8          0/8       87%     17.4
+degree-preserving     22.26    1.051   0.644    5.7 +- 1.7          0/8       60%     17.3
+density-matched       19.50    1.053   0.648    4.9 +- 0.9          0/8       56%     17.8

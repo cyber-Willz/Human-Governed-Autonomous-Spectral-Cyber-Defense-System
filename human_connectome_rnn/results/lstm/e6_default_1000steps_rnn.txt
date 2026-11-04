@@ -1,0 +1,2 @@
+### e6_default_1000steps_rnn: --model rnn --seeds 8 --modes connectome --steps 1000
+connectome            22.52    1.050   0.377    2.3 +- 0.4          0/8       85%     17.3

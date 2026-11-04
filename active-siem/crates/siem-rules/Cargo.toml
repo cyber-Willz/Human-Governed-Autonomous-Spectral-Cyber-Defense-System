@@ -1,0 +1,11 @@
+[package]
+name = "siem-rules"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+
+[dependencies]
+siem-core = { path = "../siem-core" }
+serde = { version = "1", features = ["derive"] }
+serde_yaml = "0.9"
+regex = "1"

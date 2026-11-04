@@ -1,0 +1,31 @@
+[package]
+name = "burn-llm"
+version = "0.3.0"
+edition = "2021"
+description = "Llama/Mistral/Qwen2/Qwen3-family decoder-only LLM inference on Burn 0.21 with a safetensors loader"
+# Burn 0.21.0 and cubecl-zspace 0.10.0 declare `rust-version = 1.92` (cargo on 1.85
+# refuses to resolve them: "burn@0.21.0 requires rustc 1.92"). The v0.2 manifest said 1.85,
+# which was wrong; 1.92 is the real floor.
+rust-version = "1.92"
+
+[dependencies]
+burn = { version = "0.21", default-features = false, features = ["std"] }
+burn-ndarray = "0.21"
+safetensors = "0.8"
+tokenizers = { version = "0.23", default-features = false, features = ["onig"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+memmap2 = "0.9"
+rand = "0.10"
+anyhow = "1"
+thiserror = "1"
+# Direct dependency (not just transitive via burn-core) because weights.rs decodes f16/bf16.
+half = "2.7"
+
+[[bin]]
+name = "generate"
+path = "src/bin/generate.rs"
+
+[profile.release]
+opt-level = 3
+lto = true

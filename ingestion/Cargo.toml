@@ -1,0 +1,16 @@
+[package]
+name = "ingestion"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Traffic ingestion: captures packets and fans them out (never blocking the hot capture path) to nsm, ClamAV/rust-clam file-reassembly, and the spectral engine -- and, new in this integration, hg_builder's hyperedge windowing (a fourth lane, subscribed the same cheap way as the other three)."
+
+[dependencies]
+tokio = { version = "1.38", features = ["rt-multi-thread", "sync", "time", "macros"] }
+tokio-util = "0.7"
+bytes = "1"
+thiserror = "1"
+tracing = "0.1"
+async-trait = "0.1"
+
+[dev-dependencies]

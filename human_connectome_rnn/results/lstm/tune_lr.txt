@@ -1,0 +1,11 @@
+### --model lstm --lr 0.003
+connectome            22.52    1.050   0.377   45.8 +- 32.5         2/4       78%     16.2
+### --model lstm --lr 0.006
+connectome            22.52    1.050   0.377   46.5 +- 29.6         1/4       80%     16.5
+### --model lstm --lr 0.012
+connectome            22.52    1.050   0.377   74.9 +- 30.2         3/4       75%     16.3
+### --model lstm --lr 0.02
+connectome            22.52    1.050   0.377   90.4 +- 2.1          4/4       79%     16.4
+### rnn reference (tuning seeds)
+### --model rnn
+connectome            22.52    1.050   0.377   15.3 +- 20.3         1/4       81%      6.8

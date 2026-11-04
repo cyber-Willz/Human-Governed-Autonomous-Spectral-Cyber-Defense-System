@@ -1,0 +1,2 @@
+### e4_mid_delay_rnn: --model rnn --seeds 8 --modes connectome --delay-min 50 --delay-max 90
+connectome            22.52    1.050   0.377   89.2 +- 2.2          8/8       96%     10.0

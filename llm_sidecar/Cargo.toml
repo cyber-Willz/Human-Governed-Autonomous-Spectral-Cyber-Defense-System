@@ -1,0 +1,10 @@
+[workspace]
+resolver = "2"
+members = ["burn-llm", "sidecar"]
+
+[profile.dev]
+opt-level = 2
+debug = 0
+
+[profile.release]
+opt-level = 3

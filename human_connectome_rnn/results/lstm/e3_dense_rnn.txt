@@ -1,0 +1,2 @@
+### e3_dense_rnn: --model rnn --seeds 4 --modes dense
+dense                 64.00    1.016   1.015   28.3 +- 16.4         1/4       84%     18.0

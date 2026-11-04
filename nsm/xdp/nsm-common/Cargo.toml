@@ -1,0 +1,14 @@
+[package]
+name = "nsm-common"
+version = "0.1.0"
+edition = "2021"
+description = "POD types shared between nsm's userspace loader and its XDP/eBPF program"
+
+# Deliberately has no [workspace] table: it's meant to be picked up by
+# BOTH the parent `nsm` workspace (std, target-native) and the
+# standalone `nsm-ebpf` crate (no_std, bpfel-unknown-none), so it must
+# stay dependency-light and no_std itself.
+
+[dependencies]
+# no_std, no default features -- must build for bpfel-unknown-none.
+bytemuck = { version = "1.14", default-features = false, features = ["derive"] }

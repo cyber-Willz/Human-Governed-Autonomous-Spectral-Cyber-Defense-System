@@ -1,0 +1,3 @@
+# name:hexpattern  (?? = single wildcard byte, * or *{min-max} = gap)
+Test.Marker.Basic:74657374206d616c77617265207061796c6f6164
+DemoTrojan.Generic:6465616462656566*{0-16}64726f7020746162

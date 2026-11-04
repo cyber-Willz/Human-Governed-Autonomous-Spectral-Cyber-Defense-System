@@ -1,0 +1,14 @@
+[package]
+name = "siem-server"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+
+[dependencies]
+siem-core = { path = "../siem-core" }
+siem-collector = { path = "../siem-collector" }
+siem-rules = { path = "../siem-rules" }
+siem-ml = { path = "../siem-ml" }
+siem-response = { path = "../siem-response" }
+burn = { version = "0.13", default-features = false, features = ["std", "ndarray", "autodiff"] }
+burn-ndarray = "0.13"

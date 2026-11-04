@@ -1,0 +1,596 @@
+[
+  {
+    "detail": "2 alert(s); first after 0.4s of attack traffic",
+    "expect": "detect",
+    "id": "A01",
+    "layer": "A",
+    "name": "Fast SYN port scan (60 ports / 1.2 s)",
+    "pass": true,
+    "technique": "T1046 Network Service Discovery"
+  },
+  {
+    "detail": "8 alert(s); first after 780.0s of attack traffic",
+    "expect": "detect",
+    "id": "A02",
+    "layer": "A",
+    "name": "Low-and-slow SYN scan (300 ports / 100 min)",
+    "pass": true,
+    "technique": "T1046 + evasion (rate pacing)"
+  },
+  {
+    "detail": "2 alert(s); first after 0.3s of attack traffic",
+    "expect": "detect",
+    "id": "A03a",
+    "layer": "A",
+    "name": "NULL scan (no flags, 80 ports)",
+    "pass": true,
+    "technique": "T1046 + evasion (non-SYN probe flags)"
+  },
+  {
+    "detail": "2 alert(s); first after 0.3s of attack traffic",
+    "expect": "detect",
+    "id": "A03b",
+    "layer": "A",
+    "name": "FIN scan (80 ports)",
+    "pass": true,
+    "technique": "T1046 + evasion (non-SYN probe flags)"
+  },
+  {
+    "detail": "2 alert(s); first after 0.3s of attack traffic",
+    "expect": "detect",
+    "id": "A03c",
+    "layer": "A",
+    "name": "XMAS scan FIN|PSH|URG (80 ports)",
+    "pass": true,
+    "technique": "T1046 + evasion (non-SYN probe flags)"
+  },
+  {
+    "detail": "1 alert(s); first after 0.2s of attack traffic",
+    "expect": "detect",
+    "id": "A04",
+    "layer": "A",
+    "name": "Spoofed-source SYN flood (400 SYN / 0.8 s)",
+    "pass": true,
+    "technique": "T1498 Network DoS"
+  },
+  {
+    "detail": "1 alert(s); first after 0.2s of attack traffic",
+    "expect": "detect",
+    "id": "A05",
+    "layer": "A",
+    "name": "Single-source SYN flood (400 SYN / 0.8 s)",
+    "pass": true,
+    "technique": "T1498 Network DoS"
+  },
+  {
+    "detail": "1 alert(s); first after 2.1s of attack traffic",
+    "expect": "detect",
+    "id": "A06",
+    "layer": "A",
+    "name": "DNS tunnel: base64 labels, rapid (iodine-style)",
+    "pass": true,
+    "technique": "T1071.004 DNS tunnelling"
+  },
+  {
+    "detail": "2 alert(s); first after 2.1s of attack traffic",
+    "expect": "detect",
+    "id": "A07",
+    "layer": "A",
+    "name": "DNS tunnel: hex-encoded labels",
+    "pass": true,
+    "technique": "T1071.004 + evasion (low-entropy alphabet)"
+  },
+  {
+    "detail": "2 alert(s); first after 2.1s of attack traffic",
+    "expect": "detect",
+    "id": "A08",
+    "layer": "A",
+    "name": "DNS tunnel: many short labels (4 x 14 chars)",
+    "pass": true,
+    "technique": "T1071.004 + evasion (label splitting)"
+  },
+  {
+    "detail": "28 alert(s); first after 275.0s of attack traffic",
+    "expect": "detect",
+    "id": "A09",
+    "layer": "A",
+    "name": "DNS exfil: low-and-slow (1 query / 25 s, 150 queries)",
+    "pass": true,
+    "technique": "T1048 + evasion (rate pacing)"
+  },
+  {
+    "detail": "2 alert(s); first after 14.0s of attack traffic",
+    "expect": "detect",
+    "id": "A10",
+    "layer": "A",
+    "name": "DNS exfil: dictionary-word labels (low entropy, 30 queries / min)",
+    "pass": true,
+    "technique": "T1048 + evasion (wordlist encoding)"
+  },
+  {
+    "detail": "2 alert(s); first after 360.0s of attack traffic",
+    "expect": "detect",
+    "id": "A11",
+    "layer": "A",
+    "name": "C2 beacon: fixed 60 s interval, no jitter (12 beats)",
+    "pass": true,
+    "technique": "T1071 C2 over app layer"
+  },
+  {
+    "detail": "2 alert(s); first after 975.3s of attack traffic",
+    "expect": "detect",
+    "id": "A12",
+    "layer": "A",
+    "name": "C2 beacon: 60 s +/-30% uniform jitter (24 beats)",
+    "pass": true,
+    "technique": "T1071 + evasion (jitter)"
+  },
+  {
+    "detail": "4 alert(s); first after 360.0s of attack traffic",
+    "expect": "detect",
+    "id": "A13",
+    "layer": "A",
+    "name": "C2 beacon: 60 s, rotating destination port",
+    "pass": true,
+    "technique": "T1071 + T1571 + evasion (port hopping)"
+  },
+  {
+    "detail": "6 alert(s); first after 358.1s of attack traffic",
+    "expect": "detect",
+    "id": "A14",
+    "layer": "A",
+    "name": "C2 beacon: 60 s with occasional missed/late beats",
+    "pass": true,
+    "technique": "T1071 + evasion (outliers)"
+  },
+  {
+    "detail": "1 alert(s); first after 0.0s of attack traffic",
+    "expect": "detect",
+    "id": "A15",
+    "layer": "A",
+    "name": "Log4Shell JNDI lookup, plain",
+    "pass": true,
+    "technique": "T1190 Exploit public-facing app"
+  },
+  {
+    "detail": "1 alert(s); first after 0.0s of attack traffic",
+    "expect": "detect",
+    "id": "A16",
+    "layer": "A",
+    "name": "Log4Shell JNDI lookup, ${lower:j} obfuscation",
+    "pass": true,
+    "technique": "T1190 + evasion (obfuscation)"
+  },
+  {
+    "detail": "1 alert(s); first after 0.0s of attack traffic",
+    "expect": "detect",
+    "id": "A17",
+    "layer": "A",
+    "name": "Log4Shell JNDI lookup, ${::-j} chain obfuscation",
+    "pass": true,
+    "technique": "T1190 + evasion (obfuscation)"
+  },
+  {
+    "detail": "1 alert(s); first after 0.0s of attack traffic",
+    "expect": "detect",
+    "id": "A18",
+    "layer": "A",
+    "name": "SQLi UNION SELECT, plain",
+    "pass": true,
+    "technique": "T1190"
+  },
+  {
+    "detail": "1 alert(s); first after 0.0s of attack traffic",
+    "expect": "detect",
+    "id": "A19",
+    "layer": "A",
+    "name": "SQLi: mixed case + inline comment (uNiOn/**/SeLeCt)",
+    "pass": true,
+    "technique": "T1190 + evasion (case/comment)"
+  },
+  {
+    "detail": "1 alert(s); first after 0.0s of attack traffic",
+    "expect": "detect",
+    "id": "A20",
+    "layer": "A",
+    "name": "SQLi: URL-encoded (union%20select)",
+    "pass": true,
+    "technique": "T1190 + evasion (URL encoding)"
+  },
+  {
+    "detail": "2 alert(s); first after 0.0s of attack traffic",
+    "expect": "detect",
+    "id": "A22",
+    "layer": "A",
+    "name": "Log4Shell marker after 400 B of header padding",
+    "pass": true,
+    "technique": "T1190 + evasion (capture-window padding)"
+  },
+  {
+    "detail": "1 alert(s); first after 0.0s of attack traffic",
+    "expect": "detect",
+    "id": "A23",
+    "layer": "A",
+    "name": "Log4Shell marker split across two TCP segments",
+    "pass": true,
+    "technique": "T1190 + evasion (segment splitting)"
+  },
+  {
+    "detail": "RSS grew 56 MB for 300k distinct sources (budget 64 MB)",
+    "expect": "respond safely",
+    "id": "A21",
+    "layer": "A",
+    "name": "Detector memory exhaustion (300k spoofed sources)",
+    "pass": true,
+    "technique": "T1499 Endpoint DoS (state exhaustion)"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "A30",
+    "layer": "A",
+    "name": "Benign: page load touching 35 hosts + 35 DNS lookups",
+    "pass": true,
+    "technique": "false-positive control"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "A31",
+    "layer": "A",
+    "name": "Benign: CDN/hash-style DNS names (4 names x 4 repeats)",
+    "pass": true,
+    "technique": "false-positive control"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "A32",
+    "layer": "A",
+    "name": "Benign: random-interval revisits to one server (40 samples)",
+    "pass": true,
+    "technique": "false-positive control"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "A33",
+    "layer": "A",
+    "name": "Benign: busy legitimate web client (50 conns + 10 requests)",
+    "pass": true,
+    "technique": "false-positive control"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "A34",
+    "layer": "A",
+    "name": "Benign: 30 long random-looking hostnames, one per distinct zone",
+    "pass": true,
+    "technique": "false-positive control"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "A35",
+    "layer": "A",
+    "name": "Benign: 30 normal TCP sessions incl. FIN|ACK and RST teardown",
+    "pass": true,
+    "technique": "false-positive control (flag logic)"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "A36",
+    "layer": "A",
+    "name": "Benign: web form text containing the word \"user\" (case-fold FP check)",
+    "pass": true,
+    "technique": "false-positive control (signature normalisation)"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "A37",
+    "layer": "A",
+    "name": "Benign: client using 5 well-known ports repeatedly over an hour",
+    "pass": true,
+    "technique": "false-positive control (slow-scan window)"
+  },
+  {
+    "detail": "3 alert(s) raised, severity Medium -- inherently ambiguous, kept Medium so it cannot auto-contain",
+    "expect": "known limitation",
+    "id": "K01",
+    "layer": "A",
+    "name": "Legit 60 s keepalive/poller to one server (NTP/health-check style)",
+    "pass": true,
+    "technique": "documented ambiguity, not scored"
+  },
+  {
+    "detail": "victim not banned (0 bans issued)",
+    "expect": "respond safely",
+    "id": "B01",
+    "layer": "B",
+    "name": "SYN flood: does the IPS ban the *victim*?",
+    "pass": true,
+    "technique": "T1498 -> self-inflicted outage"
+  },
+  {
+    "detail": "10.0.0.1 not banned",
+    "expect": "respond safely",
+    "id": "B08",
+    "layer": "B",
+    "name": "Forged-source exploit packet naming the default gateway",
+    "pass": true,
+    "technique": "T1498/T1565 spoofed-source -> ban infrastructure"
+  },
+  {
+    "detail": "8.8.8.8 not banned",
+    "expect": "respond safely",
+    "id": "B09",
+    "layer": "B",
+    "name": "Forged-source exploit packet naming the DNS resolver",
+    "pass": true,
+    "technique": "T1498/T1565 spoofed-source -> ban infrastructure"
+  },
+  {
+    "detail": "stage-1 queued (not banned)=true; honeytoken touch afterwards -> banned=true",
+    "expect": "respond safely",
+    "id": "B02",
+    "layer": "B",
+    "name": "Escalation after a verdict: honeytoken touch following a queued alert",
+    "pass": true,
+    "technique": "response gap: finalized-host blindness"
+  },
+  {
+    "detail": "honeytoken (confidence 1.0) touch after noise -> banned=true",
+    "expect": "respond safely",
+    "id": "B03",
+    "layer": "B",
+    "name": "Confidence dilution: 10 Info events then a honeytoken touch",
+    "pass": true,
+    "technique": "evasion: dilute a ground-truth signal"
+  },
+  {
+    "detail": "table 0/128 full of forged-source bans; real attacker banned=true; capacity_rejections=0",
+    "expect": "respond safely",
+    "id": "B04",
+    "layer": "B",
+    "name": "Ban-table exhaustion by forged sources, then a real intrusion",
+    "pass": true,
+    "technique": "T1499 -> disable containment"
+  },
+  {
+    "detail": "scanner not auto-banned",
+    "expect": "respond safely",
+    "id": "B05",
+    "layer": "B",
+    "name": "Authorised vuln scanner touches a honeytoken",
+    "pass": true,
+    "technique": "false-positive control (own tooling)"
+  },
+  {
+    "detail": "sent 400000 events in 0.08s; nsm events dropped=358279, hosts evicted=22000; critical honeytoken event banned attacker=true",
+    "expect": "respond safely",
+    "id": "B06",
+    "layer": "B",
+    "name": "Event flood (400k forged-source events) hiding a real honeytoken touch",
+    "pass": true,
+    "technique": "T1562 Impair defenses (alert flooding)"
+  },
+  {
+    "detail": "drained 200000 events in 0.21s = 944371 events/s (floor 100k/s)",
+    "expect": "respond safely",
+    "id": "B07",
+    "layer": "B",
+    "name": "Correlation-engine throughput with a full host table (200k events)",
+    "pass": true,
+    "technique": "T1499 CPU exhaustion"
+  },
+  {
+    "detail": "1 alert(s); first after 52.3s of attack traffic",
+    "expect": "detect",
+    "id": "C01",
+    "layer": "C",
+    "name": "Distributed low-rate scan (240 sources x 3 ports, 10 min)",
+    "pass": true,
+    "technique": "T1046 + evasion (source distribution)"
+  },
+  {
+    "detail": "2 alert(s); first after 1.9s of attack traffic",
+    "expect": "detect",
+    "id": "C02",
+    "layer": "C",
+    "name": "IPv6 scan rotating source address inside one /64 (80 probes / 8 s)",
+    "pass": true,
+    "technique": "T1046 + evasion (address rotation)"
+  },
+  {
+    "detail": "1 alert(s); first after 0.2s of attack traffic",
+    "expect": "detect",
+    "id": "C03",
+    "layer": "C",
+    "name": "SYN flood with randomised destination port (4000 SYN / 2 s)",
+    "pass": true,
+    "technique": "T1498 + evasion (port randomisation)"
+  },
+  {
+    "detail": "1 alert(s); first after 3.5s of attack traffic",
+    "expect": "detect",
+    "id": "C04",
+    "layer": "C",
+    "name": "DNS tunnel via short domain under a 2-letter ccTLD (x.y.abc.io)",
+    "pass": true,
+    "technique": "T1071.004 + evasion (zone mis-parse)"
+  },
+  {
+    "detail": "1 alert(s); first after 3.5s of attack traffic",
+    "expect": "detect",
+    "id": "C05",
+    "layer": "C",
+    "name": "DNS tunnel carried over TCP/53 (30 queries on one connection)",
+    "pass": true,
+    "technique": "T1071.004 + evasion (transport)"
+  },
+  {
+    "detail": "3 alert(s); first after 995.0s of attack traffic",
+    "expect": "detect",
+    "id": "C06",
+    "layer": "C",
+    "name": "Distributed DNS exfil: 60 hosts x 12 queries/h to one zone",
+    "pass": true,
+    "technique": "T1048.003 + evasion (fleet distribution)"
+  },
+  {
+    "detail": "4 alert(s); first after 363.2s of attack traffic",
+    "expect": "detect",
+    "id": "C07",
+    "layer": "C",
+    "name": "C2 beacon rotating over a 20-address pool in one /24",
+    "pass": true,
+    "technique": "T1071 + evasion (destination rotation)"
+  },
+  {
+    "detail": "3 alert(s); first after 1909.0s of attack traffic",
+    "expect": "detect",
+    "id": "C08",
+    "layer": "C",
+    "name": "C2 beacon: 60 s with +/-80 % uniform jitter (48 beats)",
+    "pass": true,
+    "technique": "T1071 + evasion (high jitter)"
+  },
+  {
+    "detail": "all 8 variants detected",
+    "expect": "detect",
+    "id": "C09",
+    "layer": "C",
+    "name": "SQLi UNION SELECT: whitespace / comment / syntax variants (8)",
+    "pass": true,
+    "technique": "T1190 + evasion (parser differential)"
+  },
+  {
+    "detail": "45 s pause: detected; byte-drip: detected",
+    "expect": "detect",
+    "id": "C10",
+    "layer": "C",
+    "name": "Log4Shell marker dripped: 45 s pause between halves / 1 byte per segment",
+    "pass": true,
+    "technique": "T1190 + evasion (slow drip)"
+  },
+  {
+    "detail": "plain junk: detected; junk ending in a marker prefix: detected",
+    "expect": "detect",
+    "id": "C11",
+    "layer": "C",
+    "name": "Signature flow-table flush: 120k junk flows between marker halves",
+    "pass": true,
+    "technique": "T1190 + evasion (state exhaustion)"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "Q01",
+    "layer": "C",
+    "name": "Benign: 400 distinct clients using ports 22/80/443 over 10 min",
+    "pass": true,
+    "technique": "FP check: distributed-scan detector"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "Q02",
+    "layer": "C",
+    "name": "Benign: 3 clients x 25 hashed lookups/h to one vendor zone",
+    "pass": true,
+    "technique": "FP check: fleet-level DNS detector"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "Q03",
+    "layer": "C",
+    "name": "Benign: client revisiting 12 hosts of one CDN /24 at random times",
+    "pass": true,
+    "technique": "FP check: /24 beacon aggregation"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "Q04",
+    "layer": "C",
+    "name": "Benign: 60 human-like (log-normal) revisit patterns x 40 visits",
+    "pass": true,
+    "technique": "FP check: high-jitter beacon test"
+  },
+  {
+    "detail": "no alerts (correct)",
+    "expect": "stay quiet",
+    "id": "Q05",
+    "layer": "C",
+    "name": "Benign: prose containing 'union', 'select', 'reunion selection'",
+    "pass": true,
+    "technique": "FP check: SQLi matcher word boundaries"
+  },
+  {
+    "detail": "not detected -- PacketMeta carries no TCP sequence number, so the engine cannot reorder",
+    "expect": "known limitation",
+    "id": "K02",
+    "layer": "C",
+    "name": "Log4Shell halves delivered out of order (TCP reordering)",
+    "pass": true,
+    "technique": "T1190 + evasion (reordering)"
+  },
+  {
+    "detail": "not detected -- per-source periodicity over *all* rare destinations needs flow-level baselining",
+    "expect": "known limitation",
+    "id": "K03",
+    "layer": "C",
+    "name": "C2 beacon rotating across unrelated networks (every beat a new /16)",
+    "pass": true,
+    "technique": "T1071 + evasion (fast-flux)"
+  },
+  {
+    "detail": "3 zone-level alert(s); attributable to a host: false -- analyst-facing only, cannot reach containment",
+    "expect": "known limitation",
+    "id": "K04",
+    "layer": "C",
+    "name": "AV/EDR cloud-reputation lookups from 60 hosts (looks exactly like C06)",
+    "pass": true,
+    "technique": "FP/limit: indistinguishable on the wire"
+  },
+  {
+    "detail": "mapped gateway banned=false; mapped attacker's ban effective on its plain IPv4 form=true; link-local gateway banned=false",
+    "expect": "respond safely",
+    "id": "C13",
+    "layer": "C",
+    "name": "Address spellings: IPv4-mapped IPv6 and IPv6 link-local vs ban/protect lists",
+    "pass": true,
+    "technique": "evasion/outage via address canonicalisation"
+  },
+  {
+    "detail": "unseen address in the same /64 blocked=true; ban-table entries used=1/64",
+    "expect": "respond safely",
+    "id": "C14",
+    "layer": "C",
+    "name": "IPv6 /64 address rotation after detection (100 addresses, ban table cap 64)",
+    "pass": true,
+    "technique": "evasion: ban-by-address vs a /64 of addresses"
+  },
+  {
+    "detail": "verdicts emitted=1 (an expired recon stage must still corroborate a later independent-lane signal)",
+    "expect": "respond safely",
+    "id": "C15",
+    "layer": "C",
+    "name": "Paced kill chain: recon, pause longer than the correlation window, anomalous flow",
+    "pass": true,
+    "technique": "T1595 -> T1071, evasion (stage pacing)"
+  },
+  {
+    "detail": "verdicts=1, queued for human review=1, auto-banned=false (must reach a human, must not auto-ban at this confidence)",
+    "expect": "respond safely",
+    "id": "C16",
+    "layer": "C",
+    "name": "ML lanes evaded: portscan + SQLi + beacon (3 NSM detectors) on one verified host",
+    "pass": true,
+    "technique": "evasion: adversarial mimicry of the ML lanes"
+  }
+]

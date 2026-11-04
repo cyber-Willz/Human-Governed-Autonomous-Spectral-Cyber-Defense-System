@@ -1,0 +1,12 @@
+source: tvb:data/tvb66 [log-compressed weights]
+regions: 66   undirected edges: 658   density: 0.307   connected: true
+mean degree: 19.9   max degree: 47   mean strength: 18.928
+interhemispheric weight fraction: 0.218   edge length (mm): mean 85.2, max 238.0
+
+wiring                rho_B |A|/rho_B fiedler err(deg) m+-sd    failures  low-harm
+connectome            22.52    1.050   0.377    5.7 +- 1.7          0/8       86%
+degree-preserving     22.26    1.051   0.644   12.3 +- 14.2         0/8       61%
+density-matched       19.50    1.053   0.648    4.4 +- 3.6          0/8       52%
+dense                 64.00    1.016   1.015   29.6 +- 26.6         2/8       84%
+
+(held-out 256 trials per run, 8 seeds, chance = 90 deg, failure = error > 45 deg; low-harm = share of cue-dependent delay variance in the lowest third of connectome harmonics)

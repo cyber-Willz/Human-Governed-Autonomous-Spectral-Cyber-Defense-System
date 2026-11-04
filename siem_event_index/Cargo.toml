@@ -1,0 +1,15 @@
+[package]
+name = "siem_event_index"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Persistent nearest-neighbor index over the SIEM correlation layer's multi-signal event vector (guide §4/§9): distance to the nearest previously-confirmed incident as a fifth signal, separate from spec_graph_step7's/spectral_jacobi_ds's internal HNSW use."
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+parking_lot = "0.12"
+
+[dev-dependencies]
+tempfile = "3"

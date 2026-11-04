@@ -1,0 +1,51 @@
+[package]
+name = "nbsc"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Non-Backtracking Spectral Convolution (NBSC): Ihara-zeta / Hashimoto-spectrum graph convolutions"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+krylov_ds = { path = "../krylov_ds" }
+nalgebra = "0.32"
+num-traits = "0.2"
+rand = "0.8"
+rand_distr = "0.4"
+thiserror = "1"
+
+# Burn is optional: the pure-CPU spectral/graph machinery (rho_B estimation,
+# Bass reduction checks, the T_k recursion applied to feature matrices) has
+# no GPU/autodiff dependency at all. The `burn` feature adds the actual
+# learnable NBSC/GCN layers used for training.
+burn = { version = "0.13", default-features = false, features = ["ndarray", "autodiff", "std"], optional = true }
+
+# `spectral_hypergraph` is optional: it brings in petgraph + indexmap (and,
+# transitively, its own rand_chacha) purely for the `hypergraph_bridge`
+# module. The core NBSC/GCN/GAT/SAGE pipeline has no hypergraph dependency
+# at all when this feature is off.
+spectral_hypergraph = { path = "../spectral_hypergraph", optional = true }
+
+[features]
+default = ["burn"]
+burn = ["dep:burn"]
+hypergraph = ["dep:spectral_hypergraph"]
+
+[dev-dependencies]
+approx = "0.5"
+
+[[example]]
+name = "benchmark"
+required-features = ["burn"]
+
+[[example]]
+name = "benchmark_cora"
+required-features = ["burn"]
+
+[[example]]
+name = "benchmark_citeseer"
+required-features = ["burn"]
+
+[[example]]
+name = "hypergraph_bridge_demo"
+required-features = ["hypergraph"]

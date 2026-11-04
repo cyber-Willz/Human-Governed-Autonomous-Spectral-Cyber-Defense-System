@@ -1,0 +1,4 @@
+### e1_default_rnn: --model rnn --seeds 8 --modes connectome,degree-preserving,density-matched
+connectome            22.52    1.050   0.377    5.7 +- 1.7          0/8       86%      6.9
+degree-preserving     22.26    1.051   0.644   12.3 +- 14.2         0/8       61%      6.6
+density-matched       19.50    1.053   0.648    4.4 +- 3.6          0/8       52%      6.8

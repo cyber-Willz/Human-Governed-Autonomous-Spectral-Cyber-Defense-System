@@ -1,0 +1,15 @@
+[package]
+name = "rclam-cli"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "rclam"
+path = "src/main.rs"
+
+[dependencies]
+scanner-core = { path = "../scanner-core" }
+sig-engine = { path = "../sig-engine" }
+clap = { version = "=4.4.18", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

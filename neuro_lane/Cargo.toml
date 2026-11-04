@@ -1,0 +1,22 @@
+[package]
+name = "neuro_lane"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.92"
+description = "Connectome-constrained LSTM temporal detector lane: per-host traffic feature sequences -> score -> correlation_engine, with scrutiny feedback from llm_bridge and guarded learning from analyst verdicts."
+
+[dependencies]
+hcrnn = { package = "human_connectome_rnn", path = "../human_connectome_rnn" }
+correlation_engine = { path = "../correlation_engine" }
+ingestion = { path = "../ingestion" }
+llm_bridge = { path = "../llm_bridge" }
+parking_lot = "0.12"
+tracing = "0.1"
+
+[[bin]]
+name = "neuro_train"
+path = "src/bin/neuro_train.rs"
+
+[dev-dependencies]
+tokio = { version = "1.38", features = ["rt-multi-thread", "sync", "time", "macros"] }
+nsm = { path = "../nsm" }

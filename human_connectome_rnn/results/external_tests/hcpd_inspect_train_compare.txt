@@ -1,0 +1,21 @@
+# Cheng et al. HCP-D T1w/T2w puberty maps: 360 Glasser parcels x 10 maps
+# graph: --features (correlation kNN, k = 10); lengths = distances between border centroids on very-inflated surface (max 149.8 mm)
+# default roles from Glasser names: 50 visual inputs, 18 somatomotor outputs
+
+== inspect ==
+regions: 360   undirected edges: 2412   density: 0.037   connected: true
+mean degree: 13.4   max degree: 25   mean strength: 9.138
+interhemispheric weight fraction: 0.351   edge length (mm): mean 50.4, max 149.8
+rho_B = 14.117   ||A||_2 = 15.227   ||A||/rho_B = 1.079   Fiedler value = 0.0267
+spectral modules (k=4): 116 | 70 | 76 | 98 regions (systems mostly Unassigned, so modules are not lobe-pure)
+
+== train, seed 1, 400 steps (46.5 s) ==
+radius of delayed dynamics 0.932 -> 1.097
+final: angular error 1.8 deg (chance 90)  within 30 deg: 100%
+held-out (256 trials): angular error 1.7 deg  within 30 deg: 100%
+low-harmonic share 80%; cue-dependent variability by system: Visual 0.2231, Unassigned 0.1516, Somatomotor 0.1186, Auditory 0.0791
+
+== compare, 3 seeds (one mode per invocation via --modes; dense not run) ==
+connectome            14.12    1.079   0.029   2.8 +- 1.1   0/3   77%
+degree-preserving     12.99    1.081   0.495   3.0 +- 1.1   0/3   41%
+density-matched       13.40    1.080   0.493   3.3 +- 0.4   0/3   39%

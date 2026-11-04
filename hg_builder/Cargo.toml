@@ -1,0 +1,28 @@
+[package]
+name = "hg_builder"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Guide §3-§5: windowed hyperedge construction from nsm/ingestion's flow stream, HMM-belief vertex weighting, hypergraph-Laplacian + NBSC rho_B + Ramanujan-deviation window scoring, feeding correlation_engine's HypergraphSender."
+
+[dependencies]
+spectral_hypergraph = { path = "../spectral_hypergraph" }
+spectral_jacobi_ds = { path = "../spectral_jacobi_ds" }
+neural_hmm = { path = "../neural_hmm" }
+correlation_engine = { path = "../correlation_engine" }
+ingestion = { path = "../ingestion" }
+tokio = { version = "1.38", features = ["rt-multi-thread", "sync", "time", "macros"] }
+tracing = "0.1"
+
+# See src/lib.rs module docs ("rand version coexistence") for why this is
+# safe despite spectral_jacobi_ds pinning rand=0.9 while spectral_hypergraph
+# (and nbsc, transitively) pin rand=0.8: no `rand` type crosses into this
+# crate's own public API, same as the existing workspace's own reasoning in
+# spectral_jacobi_ds/README.
+[dependencies.nbsc]
+path = "../nbsc"
+default-features = false
+features = ["hypergraph"]
+
+[dev-dependencies]
+bytes = "1"

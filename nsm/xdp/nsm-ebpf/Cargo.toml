@@ -1,0 +1,40 @@
+[package]
+name = "nsm-ebpf"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "nsm-ebpf"
+path = "src/main.rs"
+
+[dependencies]
+aya-ebpf = "0.2"
+network-types = "0.0.8"
+nsm-common = { path = "../nsm-common", default-features = false }
+
+# Deliberately an EMPTY workspace table. This excludes nsm-ebpf from
+# the parent `nsm` Cargo workspace: it targets `bpfel-unknown-none`
+# with `-Z build-std`, needs nightly, and must never be pulled into an
+# ordinary `cargo build`/`cargo check` of the main binary. Build it
+# with `scripts/build-ebpf.sh` instead (see that file, or the README's
+# "Building the eBPF/XDP program" section).
+[workspace]
+members = []
+
+[profile.release]
+# lto = true is deliberately NOT set here: LTO can merge/reorder the
+# ELF sections aya-obj uses to match relocations (map references,
+# .rodata/.bss "global data" used by e.g. aya-log-ebpf's debug!
+# macro) against the maps actually created at load time. When that
+# happens the kernel's BPF_PROG_LOAD verifier rejects the program with
+# "fd N is not pointing to valid bpf_map" -- a link-layer mismatch,
+# not a bug in the program logic itself. codegen-units=1 is fine (and
+# recommended) on its own; it's specifically LTO that causes this.
+panic = "abort"
+codegen-units = 1
+debug = false
+opt-level = 3
+
+[profile.dev]
+panic = "abort"

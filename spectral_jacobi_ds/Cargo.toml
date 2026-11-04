@@ -1,0 +1,41 @@
+[package]
+name = "spectral_jacobi_ds"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Jacobi-polynomial spectral node embeddings, Ramanujan-bound deviation anomaly scoring, and a from-scratch autoencoder anomaly detector, with optional bridges to spectral_hypergraph and nbsc"
+license = "MIT OR Apache-2.0"
+
+# See README.md for why `rand` is pinned to 0.9 here while `spectral_hypergraph`
+# and `nbsc`/`krylov_ds` (both elsewhere in this workspace) pin `rand = "0.8"`.
+# The three coexist fine in one workspace's dependency graph since `rand`
+# never crosses any of these crates' public API boundaries (only `f64` /
+# nalgebra types do) -- see the workspace README for the full note.
+[dependencies]
+nalgebra = { version = "0.32", default-features = false, features = ["std", "matrixmultiply"] }
+rand = "0.9"
+spectral_hypergraph = { path = "../spectral_hypergraph" }
+
+# Optional bridge into `nbsc`'s Hashimoto / non-backtracking spectral radius
+# (`rho_B`) as an additional anomaly feature -- see `src/nbsc_bridge.rs` for
+# the rationale. Pulls in `nbsc` with only its `hypergraph` feature (not
+# `burn`): this crate's anomaly pipeline doesn't need a GPU/autodiff
+# dependency, only `nbsc::graph`, `nbsc::spectral`, and
+# `nbsc::hypergraph_bridge`, all of which build without `burn`.
+[dependencies.nbsc]
+path = "../nbsc"
+optional = true
+default-features = false
+features = ["hypergraph"]
+
+[features]
+default = []
+nbsc_bridge = ["dep:nbsc"]
+
+[lib]
+name = "spectral_jacobi_ds"
+path = "src/lib.rs"
+
+[[bin]]
+name = "spectral_jacobi_ds"
+path = "src/main.rs"

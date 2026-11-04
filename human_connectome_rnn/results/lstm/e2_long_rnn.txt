@@ -1,0 +1,2 @@
+### e2_long_rnn: --model rnn --seeds 8 --modes connectome --delay-min 80 --delay-max 160
+connectome            22.52    1.050   0.377   89.1 +- 2.1          8/8       97%     14.1

@@ -1,0 +1,82 @@
+[workspace]
+resolver = "2"
+# burn 0.21 (burn-llm) cannot share a lockfile with the burn 0.13 members above
+# (bincode 2.0.0-rc.3 vs 2.0.1), so it lives in its own workspace.
+exclude = ["llm_sidecar"]
+members = [
+    # -- pre-existing components, unmodified except where a module doc
+    #    comment says otherwise (rustwall gained a lib.rs; see its docs) --
+    "active-siem/crates/siem-collector",
+    "active-siem/crates/siem-core",
+    "active-siem/crates/siem-ml",
+    "active-siem/crates/siem-response",
+    "active-siem/crates/siem-rules",
+    "active-siem/crates/siem-server",
+    "honeypot_engine",
+    "krylov_ds",
+    "nbsc",
+    "neural_hmm",
+    "ontology_engine/ontology_engine",
+    "review_queue",
+    "rust-clam/crates/archive-guard",
+    "rust-clam/crates/pe-analyze",
+    "rust-clam/crates/rclam-cli",
+    "rust-clam/crates/rclam-daemon",
+    "rust-clam/crates/scanner-core",
+    "rust-clam/crates/sig-engine",
+    "rustwall",
+    "spectral_hypergraph",
+    "spectral_jacobi_ds",
+
+    # -- new in this integration: unified_ndr_ips_siem_guide.md, §3-§6 --
+    "bounded_channel",
+    "ingestion",
+    "siem_event_index",
+    "correlation_engine",
+    "hg_builder",
+    "ips_control_plane",
+    "rl_decision",
+    "unified_runner",
+
+    # -- integrated later: real nsm (XDP-capable NSM) and the real
+    #    ontology_engine, replacing the in-memory shim --
+    "nsm",
+    "nsm/xdp/nsm-common",
+
+    # -- advanced build: connectome-LSTM sequence lane, burn-llm
+    #    bi-directional bridge, and the two uploaded projects they rest on --
+    "human_connectome_rnn",
+    "llm_bridge",
+    "neuro_lane",
+
+    # -- red-team harness (simulated attacks vs. detection + response) --
+    "attack_sim",
+]
+
+# rust-clam's crates were originally written against a workspace-level
+# `[workspace.package]` (`version.workspace = true` etc. in their own
+# Cargo.toml files) -- carried forward here unchanged so those crates don't
+# need editing. active-siem's and this integration's own crates set these
+# fields directly per-crate instead and don't read this table; it's harmless
+# for them either way.
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+# Carried forward from rust-clam's original (now-removed) nested workspace
+# manifest, unchanged.
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "unwind"
+
+# Dev builds of the numeric crates are unusably slow at opt-level 0
+# (BPTT training inside tests), so optimise just those.
+[profile.dev.package.human_connectome_rnn]
+opt-level = 3
+[profile.dev.package.neuro_lane]
+opt-level = 3
+[profile.dev.package.rl_decision]
+opt-level = 3

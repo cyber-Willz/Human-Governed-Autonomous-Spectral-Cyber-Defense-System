@@ -1,0 +1,18 @@
+source: tvb:data/tvb66 [log-compressed weights]
+regions: 66   undirected edges: 658   density: 0.307   connected: true
+mean degree: 19.9   max degree: 47   mean strength: 18.928
+interhemispheric weight fraction: 0.218   edge length (mm): mean 85.2, max 238.0
+6 seeds, 400 steps each, wiring = connectome
+
+variant                          err(deg) m+-sd   failures steps->30deg    radius  low-harm     wins
+v0.1 baseline (power, gain .9)     17.6 +- 13.3         0/6          354     1.073       87%      0/6
+arnoldi r=0.95                     21.1 +- 6.8          0/6          371     1.072       90%      1/6
+arnoldi r=0.975                    33.4 +- 14.8         1/6          429     1.064       95%      0/6
+arnoldi r=1.0                      29.3 +- 12.7         1/6          408     1.089       94%      0/6
+arnoldi r=1.03                     44.9 +- 1.0          3/6          500     1.092       91%      0/6
+r=0.975 + energy 0.05              89.5 +- 2.0          6/6          500     0.966       84%      0/6
+r=0.975 + energy 0.3               90.3 +- 1.9          6/6          500     0.996       87%      0/6
+r=0.975 + radius cap 1.05          35.7 +- 15.4         2/6          438     1.050       91%      0/6
+r=0.975 + cosine lr                45.6 +- 4.5          4/6          500     1.060       96%      0/6
+
+(failure = held-out error > 45 deg; steps->30deg counts non-reaching runs as 1.25 x steps; wins = seeds where error is lower than the v0.1 baseline on the same seed)

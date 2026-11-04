@@ -1,0 +1,2 @@
+### e3_dense_lstm: --model lstm --seeds 4 --modes dense
+dense                 64.00    1.016   1.015   10.5 +- 4.1          0/4       84%     41.7

@@ -1,0 +1,11 @@
+[package]
+name = "sig-engine"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+aho-corasick = "1.1"
+md-5 = "0.10"
+sha2 = "0.10"
+sha1 = "0.10"
+thiserror = "1.0"

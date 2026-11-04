@@ -1,0 +1,20 @@
+[package]
+name = "attack_sim"
+version = "0.1.0"
+edition = "2021"
+description = "Red-team harness: replays simulated attack traffic/events (as in-process packet metadata, no real network I/O) against the NSM detectors and the correlation -> review -> quarantine response path, and scores detection and response."
+
+[dependencies]
+nsm = { path = "../nsm" }
+correlation_engine = { path = "../correlation_engine" }
+ips_control_plane = { path = "../ips_control_plane" }
+review_queue = { path = "../review_queue" }
+rustwall = { path = "../rustwall" }
+tokio = { version = "1.38", features = ["rt-multi-thread", "macros", "time", "sync"] }
+serde_json = "1.0"
+
+[features]
+default = ["hardened"]
+# Calls the hardening APIs (protect_hosts). Build with --no-default-features
+# to compile the same harness against the original, un-hardened API.
+hardened = []

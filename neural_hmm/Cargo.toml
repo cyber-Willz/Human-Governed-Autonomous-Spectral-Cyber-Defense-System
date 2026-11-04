@@ -1,0 +1,24 @@
+[package]
+name = "neural_hmm"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+
+[[bin]]
+name = "neural_hmm"
+path = "src/main.rs"
+
+[lib]
+name = "neural_hmm"
+path = "src/lib.rs"
+
+[dependencies]
+burn = { version = "0.13", default-features = false, features = ["ndarray", "std"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+tracing = "0.1"
+anyhow = "1"
+
+[dev-dependencies]
+approx = "0.5"

@@ -1,0 +1,37 @@
+[package]
+name = "rustwall"
+version = "0.1.0"
+edition = "2021"
+description = "Inline stateful firewall (NFQUEUE-based) with a policy engine, connection tracking, and structured logging."
+
+[lib]
+name = "rustwall"
+path = "src/lib.rs"
+
+[[bin]]
+name = "rustwall"
+path = "src/main.rs"
+
+[dependencies]
+nfq = "0.2"
+etherparse = "0.13"
+serde = { version = "1", features = ["derive"] }
+toml = "=0.8.19"
+indexmap = "=2.2.6"
+clap = { version = "=4.4.18", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+dashmap = "5"
+parking_lot = "0.12"
+ipnet = { version = "2", features = ["serde"] }
+serde_json = "1"
+anyhow = "1"
+arc-swap = "1"
+signal-hook = "0.3"
+socket2 = { version = "0.5", features = ["all"] }
+libc = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true
+panic = "abort"

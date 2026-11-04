@@ -1,0 +1,67 @@
+[package]
+name = "rust-clam-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+# Deliberately its own detached workspace (see the empty [workspace] table
+# below), the standard cargo-fuzz layout: this crate exists only to host
+# fuzz_targets/ and must not be pulled into the parent workspace's own
+# dependency resolution/version pins (several parent crates pin exact
+# dependency versions for MSRV reasons that have nothing to do with what
+# libfuzzer-sys and friends need).
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+archive-guard = { path = "../crates/archive-guard" }
+sig-engine = { path = "../crates/sig-engine" }
+pe-analyze = { path = "../crates/pe-analyze" }
+
+[workspace]
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "fuzz_pe_parse"
+path = "fuzz_targets/fuzz_pe_parse.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_hexsig_ndb"
+path = "fuzz_targets/fuzz_hexsig_ndb.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_hashdb"
+path = "fuzz_targets/fuzz_hashdb.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_zip_extract"
+path = "fuzz_targets/fuzz_zip_extract.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_gzip_extract"
+path = "fuzz_targets/fuzz_gzip_extract.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_tar_extract"
+path = "fuzz_targets/fuzz_tar_extract.rs"
+test = false
+doc = false
+bench = false

@@ -1,0 +1,18 @@
+[package]
+name = "ips_control_plane"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Guide §6: the closed feedback loop. Turns a CorrelationVerdict into a review_queue::FlowPrediction (human-in-the-loop gate) and, once approved, executes containment via rustwall::Quarantine -- the actual enforcement point, never called directly from the correlation engine."
+
+[dependencies]
+correlation_engine = { path = "../correlation_engine" }
+review_queue = { path = "../review_queue" }
+rustwall = { path = "../rustwall" }
+rl_decision = { path = "../rl_decision" }
+tokio = { version = "1.38", features = ["rt-multi-thread", "sync", "time", "macros"] }
+tracing = "0.1"
+parking_lot = "0.12"
+
+[dev-dependencies]
+nsm = { path = "../nsm" }

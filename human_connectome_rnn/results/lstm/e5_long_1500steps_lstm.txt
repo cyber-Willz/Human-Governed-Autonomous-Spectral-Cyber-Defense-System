@@ -1,0 +1,2 @@
+### e5_long_1500steps_lstm: --model lstm --seeds 4 --modes connectome --delay-min 80 --delay-max 160 --steps 1500
+connectome            22.52    1.050   0.377   90.8 +- 2.2          4/4       57%    137.9
