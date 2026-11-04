@@ -204,3 +204,43 @@ See `ADVANCED.md`: connectome-LSTM temporal lane (`neuro_lane`), burn-llm bi-dir
 
 See `RL_DECISION.md` for the full architecture, authority ladder, results and
 caveats, and `CHANGES.md` for everything modified in this revision.
+
+High-Level Architecture
+
+According to the documents, the system pipeline is:
+
+Network Telemetry
+        │
+        ▼
+NSM / NDR Layer
+(scan, SYN flood, DNS tunnel,
+beaconing, signatures, XDP)
+        │
+        ▼
+Hypergraph Analytics
+(Fiedler, NBSC, Ramanujan,
+HMM belief fusion)
+        │
+        ▼
+Connectome-LSTM Lane
+(+ LLM advisory bridge)
+        │
+        ▼
+Correlation Engine
+(multi-lane fusion)
+        │
+        ▼
+RL Decision Layer
+(risk + policy + shield)
+        │
+        ▼
+IPS Control Plane
+        │
+        ▼
+Review Queue
+        │
+        ▼
+Rustwall Quarantine
+        │
+        ▼
+Feedback & Continuous Learning
